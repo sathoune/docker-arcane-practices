@@ -1,0 +1,6 @@
+services:
+  python-app:
+    build:
+      context: pyapp
+    ports:
+      - "8000:8000"

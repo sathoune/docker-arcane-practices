@@ -5,6 +5,23 @@ services:
     ports:
       - "8000:8000"
 
+
+  elixir-app:
+    build:
+      context: elixirapp
+
+    ports:
+      - "4000:4000"
+
+    volumes:
+      - ./elixirapp:/app
+      - /app/deps
+      - /app/_build
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:15
     platform: linux/amd64

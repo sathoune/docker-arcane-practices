@@ -1,6 +1,7 @@
 services:
   frontend:
     build:
+      context: frontend
       target: dev
     env_file:
       - ./frontend/.env
@@ -11,6 +12,8 @@ services:
       - /app/node_modules
 
   read-backend:
+    build:
+      context: python-read
     env_file:
       - ./python-read/.env
     ports:
@@ -19,6 +22,8 @@ services:
       - ./python-read:/app
 
   write-backend:
+    build:
+      context: python-write
     env_file:
       - ./python-write/.env
     ports:

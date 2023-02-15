@@ -1,17 +1,10 @@
+volumes:
+  docker-certs-ca:
+  docker-certs-client:
+  dind-settings:
+  registry-data:
+
 services:
-  deployment:
-    privileged: true
-    build:
-      context: deployment
-    volumes:
-        - ./deployment:/app
-        - docker-certs-ca:/certs/ca
-        - docker-certs-client:/certs/client
-    ports:
-      - "8000:8000"
-      - "4000:4000"
-    command:
-      - --insecure-registry=${DOCKER_REGISTRY_URL}
 
   dind:
     env_file:
@@ -35,10 +28,28 @@ services:
     ports:
       - "5050:5000"
     volumes:
-        - registry-data:/var/lib/registry
+      - registry-data:/var/lib/registry
 
-volumes:
-    docker-certs-ca:
-    docker-certs-client:
-    dind-settings:
-    registry-data:
+  deployment:
+    privileged: true
+    env_file:
+      - ./secret-service/.deployment
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
+    volumes:
+      - docker-certs-ca:/certs/ca
+      - docker-certs-client:/certs/client
+    expose:
+      - 80
+    command:
+      - --insecure-registry=${DOCKER_REGISTRY_URL}
+    labels:
+      - "traefik.http.routers.deployment.entrypoints=web"
+      - |
+        traefik.http.routers.deployment.rule=
+        Host(`app.localhost`) ||
+        Host(`read-backend.localhost`) ||
+        Host(`write-backend.localhost`)

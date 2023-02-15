@@ -1,0 +1,56 @@
+services:
+  frontend:
+    image: "$DOCKER_REGISTRY_URL/$FRONTEND_IMAGE"
+    pull_policy: always
+    ports:
+      - "3000:80"
+    command: [ "nginx", "-g", "daemon off;" ]
+    labels:
+      - "traefik.http.routers.frontend.rule=Host(`$FRONTEND_ADDRESS`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+
+  read-backend:
+    image: "$DOCKER_REGISTRY_URL/$READ_BACKEND_IMAGE"
+    pull_policy: always
+    env_file:
+      - ./.read
+    ports:
+      - "8000:8000"
+    labels:
+      - "traefik.http.routers.read.rule=Host(`$READ_BACKEND_ADDRESS`)"
+      - "traefik.http.routers.read.entrypoints=web"
+
+  write-backend:
+    image: "$DOCKER_REGISTRY_URL/$WRITE_BACKEND_IMAGE"
+    pull_policy: always
+    env_file:
+      - ./.write
+    ports:
+      - "8008:8000"
+    labels:
+      - "traefik.http.routers.write.rule=Host(`$WRITE_BACKEND_ADDRESS`)"
+      - "traefik.http.routers.write.entrypoints=web"
+
+  redis:
+    image: redis:latest
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 3s
+      timeout: 1s
+      retries: 3
+
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    restart: always
+    image: traefik:v2.8
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --log.level=DEBUG
+      - --providers.docker
+      - --entrypoints.web.address=:80
+    ports:
+      # The HTTP port
+      - "80:80"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock

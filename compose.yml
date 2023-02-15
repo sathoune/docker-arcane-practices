@@ -1,12 +1,18 @@
 volumes:
   docker-certs-ca:
   docker-certs-client:
-  dind-settings:
+  pipeline-settings:
   registry-data:
 
 services:
+  registry:
+    image: registry:2
+    ports:
+      - "5050:5000"
+    volumes:
+      - registry-data:/var/lib/registry
 
-  dind:
+  pipeline-runner:
     env_file:
       - ./secret-service/.pipelines
     privileged: true
@@ -19,16 +25,9 @@ services:
       - ./dev:/app
       - docker-certs-ca:/certs/ca
       - docker-certs-client:/certs/client
-      - dind-settings:/var/lib/docker/
+      - pipeline-settings:/var/lib/docker/
     command:
       - --insecure-registry=${DOCKER_REGISTRY_URL}
-
-  registry:
-    image: registry:2
-    ports:
-      - "5050:5000"
-    volumes:
-      - registry-data:/var/lib/registry
 
   deployment:
     privileged: true

@@ -10,3 +10,11 @@ services:
       context: python-write
     ports:
       - "8008:8000"
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+
+volumes:
+    redis-data:

@@ -11,7 +11,7 @@ services:
       - "8000:8000"
       - "4000:4000"
     command:
-        - --insecure-registry=registry:5000
+      - --insecure-registry=${DOCKER_REGISTRY_URL}
 
   dind:
     env_file:
@@ -28,7 +28,7 @@ services:
       - docker-certs-client:/certs/client
       - dind-settings:/var/lib/docker/
     command:
-      - --insecure-registry=registry:5000
+      - --insecure-registry=${DOCKER_REGISTRY_URL}
 
   registry:
     image: registry:2

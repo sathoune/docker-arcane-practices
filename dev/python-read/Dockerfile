@@ -3,7 +3,7 @@ WORKDIR app
 RUN apt-get update
 RUN apt-get install -y curl
 
-RUN pip install fastapi uvicorn redis
+RUN pip install fastapi uvicorn redis requests
 
 COPY . .
 

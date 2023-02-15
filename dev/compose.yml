@@ -13,6 +13,8 @@ services:
       - ./frontend:/app
 
   read-backend:
+    env_file:
+      - ./python-read/.env
     build:
       context: python-read
     ports:
@@ -22,6 +24,8 @@ services:
         condition: service_healthy
 
   write-backend:
+    env_file:
+      - ./python-write/.env
     build:
       context: python-write
     ports:

@@ -34,17 +34,8 @@ services:
     image: registry:2
     ports:
       - "5050:5000"
-
     volumes:
         - registry-data:/var/lib/registry
-
-  testing:
-    build:
-        context: testing
-    tty: true
-    volumes:
-      - ./testing:/app
-
 
 volumes:
     docker-certs-ca:

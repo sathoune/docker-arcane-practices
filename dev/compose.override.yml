@@ -12,12 +12,16 @@ services:
       - ./python-read/.env
     ports:
       - "8000:8000"
+    volumes:
+      - ./python-read:/app
 
   write-backend:
     env_file:
       - ./python-write/.env
     ports:
       - "8008:8000"
+    volumes:
+      - ./python-write:/app
 
   redis:
     volumes:

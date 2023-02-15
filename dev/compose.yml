@@ -4,17 +4,28 @@ services:
       context: python-read
     ports:
       - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
 
   write-backend:
     build:
       context: python-write
     ports:
       - "8008:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
 
   redis:
     image: redis:latest
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
     redis-data:

@@ -22,7 +22,7 @@ services:
     privileged: true
     build:
       context: .
-      dockerfile: dind/Dockerfile
+      dockerfile: pipeline-runner/Dockerfile
     environment:
       DOCKER_TLS_CERTDIR: /certs
     volumes:

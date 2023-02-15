@@ -7,4 +7,5 @@ RUN pip install fastapi uvicorn redis requests
 
 COPY . .
 
+EXPOSE 8000
 CMD ["uvicorn", "main:c", "--host", "0.0.0.0", "--port", "8000"]

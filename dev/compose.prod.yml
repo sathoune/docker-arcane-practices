@@ -2,8 +2,6 @@ services:
   frontend:
     image: "$DOCKER_REGISTRY_URL/$FRONTEND_IMAGE"
     pull_policy: always
-    ports:
-      - "3000:80"
     command: [ "nginx", "-g", "daemon off;" ]
     labels:
       - "traefik.http.routers.frontend.rule=Host(`$FRONTEND_ADDRESS`)"
@@ -14,8 +12,6 @@ services:
     pull_policy: always
     env_file:
       - ./.read
-    ports:
-      - "8000:8000"
     labels:
       - "traefik.http.routers.read.rule=Host(`$READ_BACKEND_ADDRESS`)"
       - "traefik.http.routers.read.entrypoints=web"
@@ -25,8 +21,6 @@ services:
     pull_policy: always
     env_file:
       - ./.write
-    ports:
-      - "8008:8000"
     labels:
       - "traefik.http.routers.write.rule=Host(`$WRITE_BACKEND_ADDRESS`)"
       - "traefik.http.routers.write.entrypoints=web"

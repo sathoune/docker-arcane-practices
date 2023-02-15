@@ -1,4 +1,0 @@
-DOCKER_REGISTRY_URL=registry:5000
-READ_BACKEND_IMAGE=read-backend
-WRITE_BACKEND_IMAGE=write-backend
-FRONTEND_IMAGE=frontend

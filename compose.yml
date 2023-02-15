@@ -2,7 +2,6 @@ volumes:
   docker-certs-ca:
   docker-certs-client:
   pipeline-settings:
-  registry-data:
 
 services:
   registry:
@@ -12,13 +11,8 @@ services:
     image: registry:2
     ports:
       - "5050:5000"
-    volumes:
-      - registry-data:/var/lib/registry
 
   pipeline-runner:
-    env_file:
-      - ./secret-service/.pipelines
-      - ./secret-service/.traefik-addresses
     privileged: true
     build:
       context: .
@@ -26,7 +20,6 @@ services:
     environment:
       DOCKER_TLS_CERTDIR: /certs
     volumes:
-      - ./dev:/app
       - docker-certs-ca:/certs/ca
       - docker-certs-client:/certs/client
       - pipeline-settings:/var/lib/docker/
@@ -38,9 +31,6 @@ services:
       - deployment
       - all
     privileged: true
-    env_file:
-      - ./secret-service/.deployment
-      - ./secret-service/.traefik-addresses
     environment:
       DOCKER_TLS_CERTDIR: /certs
     build:
@@ -55,10 +45,6 @@ services:
       - --insecure-registry=${DOCKER_REGISTRY_URL}
     labels:
       - "traefik.http.routers.deployment.entrypoints=web"
-      - traefik.http.routers.deployment.rule=
-        Host(`$FRONTEND_ADDRESS`) ||
-        Host(`$READ_BACKEND_ADDRESS`) ||
-        Host(`$WRITE_BACKEND_ADDRESS`)
 
   reverse-proxy:
     profiles:

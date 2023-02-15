@@ -1,4 +1,4 @@
-.PHONY: u d ub dev dev-down deployment pipeline
+.PHONY: u d ub dev dev-down
 default: u
 
 dev:
@@ -14,10 +14,3 @@ d:
 
 ub: d
 	docker compose up -d --build
-
-pipeline:
-	docker compose exec pipeline-runner sh ./ci-scripts/smoke-test.sh
-	docker compose exec pipeline-runner sh ./ci-scripts/push-images.sh
-
-deployment:
-	docker compose exec deployment sh ./deploy.sh

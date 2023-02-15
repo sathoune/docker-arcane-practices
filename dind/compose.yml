@@ -1,6 +1,12 @@
 services:
-  python-app:
+  read-backend:
     build:
-      context: pyapp
+      context: python-read
     ports:
       - "8000:8000"
+
+  write-backend:
+    build:
+      context: python-write
+    ports:
+      - "8008:8000"

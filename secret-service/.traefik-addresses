@@ -1,0 +1,3 @@
+FRONTEND_ADDRESS=app.localhost
+WRITE_BACKEND_ADDRESS=write-backend.localhost
+READ_BACKEND_ADDRESS=read-backend.localhost

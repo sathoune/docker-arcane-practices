@@ -18,6 +18,7 @@ services:
   pipeline-runner:
     env_file:
       - ./secret-service/.pipelines
+      - ./secret-service/.traefik-addresses
     privileged: true
     build:
       context: .
@@ -39,6 +40,7 @@ services:
     privileged: true
     env_file:
       - ./secret-service/.deployment
+      - ./secret-service/.traefik-addresses
     environment:
       DOCKER_TLS_CERTDIR: /certs
     build:

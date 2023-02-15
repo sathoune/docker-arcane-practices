@@ -10,8 +10,8 @@ services:
   read-backend:
     image: "$DOCKER_REGISTRY_URL/$READ_BACKEND_IMAGE"
     pull_policy: always
-    env_file:
-      - ./.read
+    #    env_file:
+    #      - ./.read
     labels:
       - "traefik.http.routers.read.rule=Host(`$READ_BACKEND_ADDRESS`)"
       - "traefik.http.routers.read.entrypoints=web"
@@ -19,8 +19,8 @@ services:
   write-backend:
     image: "$DOCKER_REGISTRY_URL/$WRITE_BACKEND_IMAGE"
     pull_policy: always
-    env_file:
-      - ./.write
+    #    env_file:
+    #      - ./.write
     labels:
       - "traefik.http.routers.write.rule=Host(`$WRITE_BACKEND_ADDRESS`)"
       - "traefik.http.routers.write.entrypoints=web"

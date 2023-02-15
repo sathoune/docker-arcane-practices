@@ -11,4 +11,4 @@ curl --fail "${SMOKE__WRITE_BACKEND_HOST}"/healtz
 printf "\n\nClient test\n"
 curl --fail "${SMOKE__FRONTEND_HOST}"
 
-docker compose down
+docker compose down --remove-orphans

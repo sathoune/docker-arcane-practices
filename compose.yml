@@ -1,4 +1,18 @@
 services:
+  deployment:
+    privileged: true
+    build:
+      context: deployment
+    volumes:
+        - ./deployment:/app
+        - docker-certs-ca:/certs/ca
+        - docker-certs-client:/certs/client
+    ports:
+      - "8000:8000"
+      - "4000:4000"
+    command:
+        - --insecure-registry=registry:5000
+
   dind:
     env_file:
         - ./dind/.env
@@ -22,6 +36,15 @@ services:
 
     volumes:
         - registry-data:/var/lib/registry
+
+  testing:
+    build:
+        context: testing
+    tty: true
+    volumes:
+      - ./testing:/app
+
+
 volumes:
     docker-certs-ca:
     docker-certs-client:

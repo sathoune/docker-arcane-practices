@@ -1,6 +1,6 @@
 set -e
 
-docker compose up -d --build
+docker compose -f compose.yml -f compose.ci.yml up -d --build
 docker compose down
 
 docker tag app-read-backend "$DOCKER_REGISTRY_URL"/"$READ_BACKEND_IMAGE"

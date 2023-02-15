@@ -1,0 +1,20 @@
+services:
+  frontend:
+    build:
+      target: prod
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3000:80"
+
+  read-backend:
+    env_file:
+      - ./python-read/.env
+    ports:
+      - "8000:8000"
+
+  write-backend:
+    env_file:
+      - ./python-write/.env
+    ports:
+      - "8008:8000"

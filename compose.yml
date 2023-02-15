@@ -8,7 +8,7 @@ services:
 
   dind:
     env_file:
-        - ./dind/.env
+      - ./secret-service/.pipelines
     privileged: true
     build:
       context: .

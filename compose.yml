@@ -49,9 +49,9 @@ services:
     labels:
       - "traefik.http.routers.deployment.entrypoints=web"
       - traefik.http.routers.deployment.rule=
-        Host(`app.localhost`) ||
-        Host(`read-backend.localhost`) ||
-        Host(`write-backend.localhost`)
+        Host(`$FRONTEND_ADDRESS`) ||
+        Host(`$READ_BACKEND_ADDRESS`) ||
+        Host(`$WRITE_BACKEND_ADDRESS`)
 
   reverse-proxy:
     # The official v2 Traefik docker image

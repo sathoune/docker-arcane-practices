@@ -13,7 +13,7 @@ FROM dev as build
 RUN yarn build
 
 # Production stage
-FROM --platform=linux/amd64  nginx:1.21.4-alpine as prod
+FROM nginx:1.21.4-alpine as prod
 COPY --from=build /app/dist /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf

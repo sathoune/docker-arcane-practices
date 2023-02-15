@@ -1,7 +1,15 @@
 import fastapi
 
+from session import initialize_redis
+
 app = fastapi.FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World666"}
+
+@app.on_event("startup")
+async def startup_event():
+    app.state.redis = await initialize_redis()
+
+
+@app.get("/read")
+async def read_redis():
+    return await app.state.redis.get("message")

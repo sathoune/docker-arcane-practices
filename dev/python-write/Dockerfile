@@ -5,6 +5,6 @@ RUN apt-get install -y curl
 
 RUN pip install fastapi uvicorn redis
 
-COPY main.py .
+COPY . .
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

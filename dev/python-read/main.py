@@ -28,3 +28,7 @@ async def startup_event():
 async def read_redis():
     key = requests.get(AppSettings().write_host + "/key").json()
     return await app.state.redis.get(key)
+
+@app.get("/healtz")
+async def healtz():
+    return {"status": "ok"}

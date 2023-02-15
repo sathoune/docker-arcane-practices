@@ -34,3 +34,8 @@ async def write_redis(message: str):
 @app.get("/key")
 async def key():
     return AppSettings().key_name
+
+
+@app.get("/healtz")
+async def healtz():
+    return {"status": "ok"}

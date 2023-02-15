@@ -14,5 +14,5 @@ export const writeCall = async (data: string) => {
 }
 export const readCall = async () => {
   const res = await axios.get(readAddress)
-  return res.data as (string | null)
+  return res.data
 }

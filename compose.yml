@@ -18,11 +18,12 @@ services:
         - ./dind/.env
     privileged: true
     build:
-      context: dind
+      context: .
+      dockerfile: dind/Dockerfile
     environment:
       DOCKER_TLS_CERTDIR: /certs
     volumes:
-      - ./dind:/app
+      - ./dev:/app
       - docker-certs-ca:/certs/ca
       - docker-certs-client:/certs/client
       - dind-settings:/var/lib/docker/

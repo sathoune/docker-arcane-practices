@@ -1,48 +1,29 @@
 services:
   frontend:
-    env_file:
-      - ./frontend/.env
     build:
       context: frontend
-    ports:
-      - "3000:5173"
     depends_on:
       - read-backend
       - write-backend
-    volumes:
-      - ./frontend:/app
 
   read-backend:
-    env_file:
-      - ./python-read/.env
     build:
       context: python-read
-    ports:
-      - "8000:8000"
     depends_on:
       redis:
         condition: service_healthy
 
   write-backend:
-    env_file:
-      - ./python-write/.env
     build:
       context: python-write
-    ports:
-      - "8008:8000"
     depends_on:
       redis:
         condition: service_healthy
 
   redis:
     image: redis:latest
-    volumes:
-      - redis-data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 3s
       timeout: 1s
       retries: 3
-
-volumes:
-    redis-data:

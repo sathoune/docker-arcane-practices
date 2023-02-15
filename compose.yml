@@ -6,6 +6,9 @@ volumes:
 
 services:
   registry:
+    profiles:
+      - registry
+      - all
     image: registry:2
     ports:
       - "5050:5000"
@@ -30,6 +33,9 @@ services:
       - --insecure-registry=${DOCKER_REGISTRY_URL}
 
   deployment:
+    profiles:
+      - deployment
+      - all
     privileged: true
     env_file:
       - ./secret-service/.deployment
@@ -53,6 +59,9 @@ services:
         Host(`$WRITE_BACKEND_ADDRESS`)
 
   reverse-proxy:
+    profiles:
+      - rp
+      - all
     # The official v2 Traefik docker image
     restart: always
     image: traefik:v2.8
